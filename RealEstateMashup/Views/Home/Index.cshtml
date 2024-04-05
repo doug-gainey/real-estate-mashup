@@ -1,0 +1,60 @@
+﻿@using RealEstateMashup.Models
+@model ForeclosuresModel
+@{
+    ViewBag.Title = "Foreclosures";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title</h1>
+                <h2>from HUD Home Store and Home Path</h2>
+            </hgroup>
+            <p>
+                This page shows a summary of foreclosed properties in Florence, Darlington, Horry, and Charleston counties.
+            </p>
+        </div>
+    </section>
+}
+@helper ShowProperties(IList<ForeclosureModel> properties)
+{
+    var i = 0;
+    foreach (var property in properties)
+    {
+    <div class="property@(property.BiddingRestricted ? " restricted" : null)@(i % 5 == 0 ? " clear-left" : null)">
+        <a href="@property.DetailPage" target="_blank">
+            <img src="@property.Photo" alt=""/>
+        </a>
+        <br />
+        @Html.Raw(property.Address)<br />
+        @property.Beds
+        bd /
+            @property.Baths
+        ba<br />
+        @Html.Raw(property.Price)
+    </div>
+        i++;
+    }
+}
+<h3>Available Properties:</h3>
+<ol class="round">
+    <li class="one clear-fix">
+        <h5>Florence County</h5>
+        @ShowProperties(Model.FlorenceProperties)
+    </li>
+
+    <li class="two clear-fix">
+        <h5>Darlington County</h5>
+        @ShowProperties(Model.DarlingtonProperties)
+    </li>
+
+    <li class="three clear-fix">
+        <h5>Horry County</h5>
+        @ShowProperties(Model.HorryProperties)
+    </li>
+
+    <li class="four clear-fix">
+        <h5>Charleston County</h5>
+        @ShowProperties(Model.CharlestonProperties)
+    </li>
+</ol>
